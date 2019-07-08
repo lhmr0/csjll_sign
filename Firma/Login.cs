@@ -9,11 +9,14 @@ using System.Text;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Firma_Digital
 {
     public partial class Login : MetroForm
-    {
+    {        
+        MySqlConnection con = new MySqlConnection("datasource=127.0.0.1;port=3306;username=root;password=;database=ldfirmas;");
+
         public Login()
         {
             InitializeComponent();
@@ -31,24 +34,34 @@ namespace Firma_Digital
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-
-            //MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente","Incorrecto");
-            if (txtUsuario.Text == "" || txtPassword.Text == "")
+            //string pass = CalculateMD5Hash(txtPassword.Text);
+            con.Open();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM usuario WHERE ulogin='" + txtUsuario.Text + "'AND clave='" + CalculateMD5Hash(txtPassword.Text) + "' ", con);
+            MySqlDataReader leer = cmd.ExecuteReader();
+           
+            if (leer.Read())
             {
-                MetroMessageBox.Show(this, "Complete los campos", "Error");
-            }
-            else if (txtUsuario.Text == "admin" && txtPassword.Text == "admin")
-            {
-                Usuarios fAdm = new Usuarios();
-                fAdm.ShowDialog();
+                string estado = leer[3].ToString();
+                if (estado == "1")
+                {
+                    this.Hide();
+                    Form1 f2 = new Form1();
+                    f2.Show();
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "Incorrecto");
+                }
+             
+                
             }
             else
-            {
-                Form1 f2 = new Form1();
-                //string pass = CalculateMD5Hash(txtPassword.Text);
-                //txtPassword.Text = pass;
-                f2.ShowDialog();
-            }
+                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente","Incorrecto");
+
+            con.Close(); 
+
+            
+            
 
         }
 
