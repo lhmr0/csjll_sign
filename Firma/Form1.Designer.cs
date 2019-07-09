@@ -35,7 +35,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnNuevoDoc = new MetroFramework.Controls.MetroButton();
-            this.btnFirmar = new MetroFramework.Controls.MetroButton();
+            this.btnFirmara = new MetroFramework.Controls.MetroButton();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
@@ -43,7 +43,7 @@
             this.gridDocs = new MetroFramework.Controls.MetroGrid();
             this.Accion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtNuevo = new MetroFramework.Controls.MetroTextBox();
+            this.spnArchivo = new MetroFramework.Controls.MetroProgressSpinner();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridDocs)).BeginInit();
             this.SuspendLayout();
@@ -60,15 +60,15 @@
             this.btnNuevoDoc.UseSelectable = true;
             this.btnNuevoDoc.Click += new System.EventHandler(this.MetroButton1_Click);
             // 
-            // btnFirmar
+            // btnFirmara
             // 
-            this.btnFirmar.Location = new System.Drawing.Point(94, 321);
-            this.btnFirmar.Name = "btnFirmar";
-            this.btnFirmar.Size = new System.Drawing.Size(75, 23);
-            this.btnFirmar.TabIndex = 1;
-            this.btnFirmar.Text = "Firmar";
-            this.btnFirmar.UseSelectable = true;
-            this.btnFirmar.Click += new System.EventHandler(this.MetroButton2_Click);
+            this.btnFirmara.Location = new System.Drawing.Point(94, 321);
+            this.btnFirmara.Name = "btnFirmara";
+            this.btnFirmara.Size = new System.Drawing.Size(75, 23);
+            this.btnFirmara.TabIndex = 1;
+            this.btnFirmara.Text = "Firmar";
+            this.btnFirmara.UseSelectable = true;
+            this.btnFirmara.Click += new System.EventHandler(this.MetroButton2_Click);
             // 
             // metroButton1
             // 
@@ -178,50 +178,28 @@
             this.Documento.Name = "Documento";
             this.Documento.Width = 320;
             // 
-            // txtNuevo
+            // spnArchivo
             // 
-            // 
-            // 
-            // 
-            this.txtNuevo.CustomButton.Image = null;
-            this.txtNuevo.CustomButton.Location = new System.Drawing.Point(133, 1);
-            this.txtNuevo.CustomButton.Name = "";
-            this.txtNuevo.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtNuevo.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtNuevo.CustomButton.TabIndex = 1;
-            this.txtNuevo.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtNuevo.CustomButton.UseSelectable = true;
-            this.txtNuevo.CustomButton.Visible = false;
-            this.txtNuevo.Lines = new string[] {
-        "metroTextBox1"};
-            this.txtNuevo.Location = new System.Drawing.Point(474, 238);
-            this.txtNuevo.MaxLength = 32767;
-            this.txtNuevo.Name = "txtNuevo";
-            this.txtNuevo.PasswordChar = '\0';
-            this.txtNuevo.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtNuevo.SelectedText = "";
-            this.txtNuevo.SelectionLength = 0;
-            this.txtNuevo.SelectionStart = 0;
-            this.txtNuevo.ShortcutsEnabled = true;
-            this.txtNuevo.Size = new System.Drawing.Size(155, 23);
-            this.txtNuevo.TabIndex = 65;
-            this.txtNuevo.Text = "metroTextBox1";
-            this.txtNuevo.UseSelectable = true;
-            this.txtNuevo.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtNuevo.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.spnArchivo.Location = new System.Drawing.Point(37, 440);
+            this.spnArchivo.Maximum = 100;
+            this.spnArchivo.Name = "spnArchivo";
+            this.spnArchivo.Size = new System.Drawing.Size(93, 76);
+            this.spnArchivo.TabIndex = 66;
+            this.spnArchivo.UseSelectable = true;
+            this.spnArchivo.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 655);
-            this.Controls.Add(this.txtNuevo);
+            this.Controls.Add(this.spnArchivo);
             this.Controls.Add(this.btnAdjuntarWord);
             this.Controls.Add(this.gridDocs);
             this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.metroButton1);
-            this.Controls.Add(this.btnFirmar);
+            this.Controls.Add(this.btnFirmara);
             this.Controls.Add(this.btnNuevoDoc);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -240,7 +218,7 @@
         #endregion
 
         private MetroFramework.Controls.MetroButton btnNuevoDoc;
-        private MetroFramework.Controls.MetroButton btnFirmar;
+        private MetroFramework.Controls.MetroButton btnFirmara;
         private MetroFramework.Controls.MetroButton metroButton1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private MetroFramework.Controls.MetroLabel metroLabel7;
@@ -248,6 +226,6 @@
         private MetroFramework.Controls.MetroGrid gridDocs;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
-        private MetroFramework.Controls.MetroTextBox txtNuevo;
+        private MetroFramework.Controls.MetroProgressSpinner spnArchivo;
     }
 }

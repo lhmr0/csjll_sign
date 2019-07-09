@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using MetroFramework;
+using MetroFramework.Forms;
+using MySql.Data.MySqlClient;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
-using MetroFramework;
-using MetroFramework.Forms;
-using MySql.Data.MySqlClient;
 
 namespace Firma_Digital
 {
     public partial class Login : MetroForm
-    {        
-        MySqlConnection con = new MySqlConnection("datasource=127.0.0.1;port=3306;username=root;password=;database=ldfirmas;");
+    {
+        MySqlConnection con = new MySqlConnection("datasource=172.41.158.33;port=3306;username=ldfirmas;password=123456;database=ldfirmas;");
 
         public Login()
         {
@@ -38,7 +33,7 @@ namespace Firma_Digital
             con.Open();
             MySqlCommand cmd = new MySqlCommand("SELECT * FROM usuario WHERE ulogin='" + txtUsuario.Text + "'AND clave='" + CalculateMD5Hash(txtPassword.Text) + "' ", con);
             MySqlDataReader leer = cmd.ExecuteReader();
-           
+
             if (leer.Read())
             {
                 string estado = leer[3].ToString();
@@ -52,16 +47,16 @@ namespace Firma_Digital
                 {
                     MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "Incorrecto");
                 }
-             
-                
+
+
             }
             else
-                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente","Incorrecto");
+                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente", "Incorrecto");
 
-            con.Close(); 
+            con.Close();
 
-            
-            
+
+
 
         }
 

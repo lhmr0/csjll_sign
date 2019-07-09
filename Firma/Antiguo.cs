@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Firma_Digital;
+﻿using Firma_Digital;
 using iTextSharp.text.pdf;
-using MetroFramework;
 using MetroFramework.Forms;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace iTextSharpSign
 {
@@ -38,7 +33,7 @@ namespace iTextSharpSign
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void GroupBox2_Enter(object sender, EventArgs e)
@@ -68,7 +63,7 @@ namespace iTextSharpSign
 
         private void Button3_Click_1(object sender, EventArgs e)
         {
-      
+
         }
 
         private void MetroTextBox1_Click(object sender, EventArgs e)
@@ -196,7 +191,7 @@ namespace iTextSharpSign
 
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
-            debug(output+error);
+            debug(output + error);
 
         }
 
@@ -217,7 +212,7 @@ namespace iTextSharpSign
 
         private void EnvioCorreo_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void MetroContextMenu1_Opening(object sender, CancelEventArgs e)

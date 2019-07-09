@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-
-using org.bouncycastle.crypto;
-using org.bouncycastle.x509;
-using System.Collections;
-using org.bouncycastle.pkcs;
 using iTextSharp.text.pdf;
-using System.IO;
 using iTextSharp.text.xml.xmp;
+using org.bouncycastle.crypto;
+using org.bouncycastle.pkcs;
+using System.Collections;
+using System.IO;
 
 
 ///
@@ -39,11 +35,11 @@ namespace iTextSharpSign
         #region Accessors
         public org.bouncycastle.x509.X509Certificate[] Chain
         {
-          get { return chain; }
+            get { return chain; }
         }
         public AsymmetricKeyParameter Akp
         {
-          get { return akp; }
+            get { return akp; }
         }
 
         public string Path
@@ -62,44 +58,44 @@ namespace iTextSharpSign
 
         private void processCert()
         {
-                string alias = null;                                                
-                PKCS12Store pk12;
+            string alias = null;
+            PKCS12Store pk12;
 
-                //First we'll read the certificate file
-                pk12 = new PKCS12Store(new FileStream(this.Path, FileMode.Open, FileAccess.Read), this.password.ToCharArray());
+            //First we'll read the certificate file
+            pk12 = new PKCS12Store(new FileStream(this.Path, FileMode.Open, FileAccess.Read), this.password.ToCharArray());
 
-                //then Iterate throught certificate entries to find the private key entry
-                IEnumerator i = pk12.aliases();
-                while (i.MoveNext())
-                {
-                    alias = ((string)i.Current);
-                    if (pk12.isKeyEntry(alias))
-                        break;
-                }
-
-                this.akp = pk12.getKey(alias).getKey();
-                X509CertificateEntry[] ce = pk12.getCertificateChain(alias);
-                this.chain = new org.bouncycastle.x509.X509Certificate[ce.Length];
-                for (int k = 0; k < ce.Length; ++k)
-                    chain[k] = ce[k].getCertificate();
-
+            //then Iterate throught certificate entries to find the private key entry
+            IEnumerator i = pk12.aliases();
+            while (i.MoveNext())
+            {
+                alias = ((string)i.Current);
+                if (pk12.isKeyEntry(alias))
+                    break;
             }
+
+            this.akp = pk12.getKey(alias).getKey();
+            X509CertificateEntry[] ce = pk12.getCertificateChain(alias);
+            this.chain = new org.bouncycastle.x509.X509Certificate[ce.Length];
+            for (int k = 0; k < ce.Length; ++k)
+                chain[k] = ce[k].getCertificate();
+
+        }
         #endregion
 
         #region Constructors
-            public Cert()
-            { }
-            public Cert(string cpath)
-            {
-                this.path = cpath;
-                this.processCert();
-            }
-            public Cert(string cpath, string cpassword)
-            {
-                this.path = cpath;
-                this.Password = cpassword;
-                this.processCert();
-            }
+        public Cert()
+        { }
+        public Cert(string cpath)
+        {
+            this.path = cpath;
+            this.processCert();
+        }
+        public Cert(string cpath, string cpassword)
+        {
+            this.path = cpath;
+            this.Password = cpassword;
+            this.processCert();
+        }
         #endregion
 
     }
@@ -156,8 +152,8 @@ namespace iTextSharpSign
         public byte[] getStreamedMetaData()
         {
             MemoryStream os = new System.IO.MemoryStream();
-            XmpWriter xmp = new XmpWriter(os, this.info);            
-            xmp.Close();            
+            XmpWriter xmp = new XmpWriter(os, this.info);
+            xmp.Close();
             return os.ToArray();
         }
 
@@ -217,20 +213,20 @@ namespace iTextSharpSign
             st.MoreInfo = this.metadata.getMetaData();
             st.XmpMetadata = this.metadata.getStreamedMetaData();
             PdfSignatureAppearance sap;
-           
+
             sap = st.SignatureAppearance;
             sap.SetCrypto(this.myCert.Akp, this.myCert.Chain, null, PdfSignatureAppearance.WINCER_SIGNED);
             //string img = "C:\Users\USUARIO\Desktop\darth.png";     
-          
+
             string imagePath = rutaImagen;
             iTextSharp.text.Image imagen = iTextSharp.text.Image.GetInstance(imagePath);
-   
+
             sap.Reason = "FIRMA ELECTRÓNICA";
             sap.Image = imagen;
 
-            sap.Location = "PERÚ";            
+            sap.Location = "PERÚ";
             if (visible)
-                sap.SetVisibleSignature(new iTextSharp.text.Rectangle(480, 10, 600, 60), 1, null);            
+                sap.SetVisibleSignature(new iTextSharp.text.Rectangle(480, 10, 600, 60), 1, null);
             st.Close();
         }
 

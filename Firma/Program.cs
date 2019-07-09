@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Firma_Digital;
+using System;
 using System.Windows.Forms;
-using Firma_Digital;
-using MetroFramework.Forms;
 
-namespace iTextSharpSign 
+namespace iTextSharpSign
 {
-    static class Program 
+    static class Program
     {
         /// <summary>
         /// The main entry point for the application.
