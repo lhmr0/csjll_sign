@@ -84,6 +84,8 @@
             this.txtUsuario.UseSelectable = true;
             this.txtUsuario.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUsuario.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtUsuario.Enter += new System.EventHandler(this.TxtUsuario_Enter);
+            this.txtUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtUsuario_KeyPress);
             // 
             // txtPassword
             // 
@@ -115,6 +117,8 @@
             this.txtPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtPassword.Click += new System.EventHandler(this.TxtPassword_Click);
+            this.txtPassword.Enter += new System.EventHandler(this.TxtPassword_Enter);
+            this.txtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPassword_KeyDown);
             // 
             // metroLabel2
             // 

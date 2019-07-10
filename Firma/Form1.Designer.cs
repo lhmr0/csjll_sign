@@ -43,7 +43,7 @@
             this.gridDocs = new MetroFramework.Controls.MetroGrid();
             this.Accion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.spnArchivo = new MetroFramework.Controls.MetroProgressSpinner();
+            this.lblSubiendo = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridDocs)).BeginInit();
             this.SuspendLayout();
@@ -178,22 +178,20 @@
             this.Documento.Name = "Documento";
             this.Documento.Width = 320;
             // 
-            // spnArchivo
+            // lblSubiendo
             // 
-            this.spnArchivo.Location = new System.Drawing.Point(37, 440);
-            this.spnArchivo.Maximum = 100;
-            this.spnArchivo.Name = "spnArchivo";
-            this.spnArchivo.Size = new System.Drawing.Size(93, 76);
-            this.spnArchivo.TabIndex = 66;
-            this.spnArchivo.UseSelectable = true;
-            this.spnArchivo.Visible = false;
+            this.lblSubiendo.AutoSize = true;
+            this.lblSubiendo.Location = new System.Drawing.Point(39, 562);
+            this.lblSubiendo.Name = "lblSubiendo";
+            this.lblSubiendo.Size = new System.Drawing.Size(0, 0);
+            this.lblSubiendo.TabIndex = 65;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 655);
-            this.Controls.Add(this.spnArchivo);
+            this.Controls.Add(this.lblSubiendo);
             this.Controls.Add(this.btnAdjuntarWord);
             this.Controls.Add(this.gridDocs);
             this.Controls.Add(this.metroLabel7);
@@ -226,6 +224,6 @@
         private MetroFramework.Controls.MetroGrid gridDocs;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
-        private MetroFramework.Controls.MetroProgressSpinner spnArchivo;
+        private MetroFramework.Controls.MetroLabel lblSubiendo;
     }
 }

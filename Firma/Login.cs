@@ -15,6 +15,16 @@ namespace Firma_Digital
         public Login()
         {
             InitializeComponent();
+
+        }
+
+        private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                BtnLogin_Click(this, new EventArgs());
+            }
         }
 
         private void MetroLabel1_Click(object sender, EventArgs e)
@@ -30,6 +40,8 @@ namespace Firma_Digital
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             //string pass = CalculateMD5Hash(txtPassword.Text);
+            try
+            {            
             con.Open();
             MySqlCommand cmd = new MySqlCommand("SELECT * FROM usuario WHERE ulogin='" + txtUsuario.Text + "'AND clave='" + CalculateMD5Hash(txtPassword.Text) + "' ", con);
             MySqlDataReader leer = cmd.ExecuteReader();
@@ -45,15 +57,20 @@ namespace Firma_Digital
                 }
                 else
                 {
-                    MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "Incorrecto");
+                    MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "ERROR");
                 }
 
 
             }
             else
-                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente", "Incorrecto");
+                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente", "ERROR");
 
             con.Close();
+            }
+            catch(Exception ex) 
+            {
+                MetroMessageBox.Show(this, ex.Message, "ERROR");
+            }
 
 
 
@@ -113,6 +130,24 @@ namespace Firma_Digital
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void TxtPassword_Enter(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtUsuario_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                BtnLogin_Click(this, new EventArgs());
+            }
         }
     }
 }
