@@ -95,7 +95,7 @@
             this.metroLabel7.AutoSize = true;
             this.metroLabel7.Location = new System.Drawing.Point(297, 616);
             this.metroLabel7.Name = "metroLabel7";
-            this.metroLabel7.Size = new System.Drawing.Size(220, 19);
+            this.metroLabel7.Size = new System.Drawing.Size(218, 19);
             this.metroLabel7.TabIndex = 62;
             this.metroLabel7.Text = "OFICINA DE INFORMÁTICA - CSJLL";
             this.metroLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -165,6 +165,7 @@
             this.gridDocs.Style = MetroFramework.MetroColorStyle.Black;
             this.gridDocs.TabIndex = 63;
             this.gridDocs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDocs_CellContentClick);
+            this.gridDocs.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.GridDocs_CellFormatting_1);
             // 
             // Accion
             // 

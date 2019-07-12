@@ -5,12 +5,15 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using iTextSharpSign;
+
+
 
 namespace Firma_Digital
 {
     public partial class Login : MetroForm
     {
-        MySqlConnection con = new MySqlConnection("datasource=172.41.158.33;port=3306;username=ldfirmas;password=123456;database=ldfirmas;");
+        MySqlConnection con = new MySqlConnection(Globales.connectionString);
 
         public Login()
         {
@@ -43,7 +46,12 @@ namespace Firma_Digital
             try
             {            
             con.Open();
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM usuario WHERE ulogin='" + txtUsuario.Text + "'AND clave='" + CalculateMD5Hash(txtPassword.Text) + "' ", con);
+            MySqlCommand cmd = new MySqlCommand(@"SELECT u.id_usuario,u.ulogin, e.id_empleado,p.id_persona, p.nombres, p.apellido_paterno,p.apellido_materno FROM usuario u 
+                                                  inner join empleado e on e.id_empleado = u.id_empleado
+                                                  inner join persona p on p.id_persona = e.id_persona 
+                                                  WHERE ulogin='" + txtUsuario.Text + "'AND clave=md5('" + txtPassword.Text + "')", con);
+
+
             MySqlDataReader leer = cmd.ExecuteReader();
 
             if (leer.Read())
@@ -51,7 +59,21 @@ namespace Firma_Digital
                 string estado = leer[3].ToString();
                 if (estado == "1")
                 {
-                    this.Hide();
+                        Globales.id_empleado= leer.GetInt32(2);
+                        /*string[] row = new string[7];
+                        row[0] = leer.GetString(0);
+                        row[1] = leer.GetString(1);
+                        row[2] = leer.GetString(2);
+                        row[3] = leer.GetString(3);
+                        row[4] = leer.GetString(4);
+                        row[5] = leer.GetString(5);
+                        row[6] = leer.GetString(6);
+
+                        Console.WriteLine("sesion: ");
+                        Console.WriteLine(row);*/
+
+
+                        this.Hide();
                     Form1 f2 = new Form1();
                     f2.Show();
                 }
