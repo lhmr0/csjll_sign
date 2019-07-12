@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace iTextSharpSign
+namespace Firma_Digital
 {
     static class Globales
     {

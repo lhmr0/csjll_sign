@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace iTextSharpSign
+namespace Firma_Digital
 {
     public partial class FirmaDigital : MetroForm
     {

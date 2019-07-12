@@ -1,5 +1,4 @@
 ﻿
-
 using iTextSharp.text.pdf;
 using iTextSharp.text.xml.xmp;
 using org.bouncycastle.crypto;
@@ -8,15 +7,8 @@ using System.Collections;
 using System.IO;
 
 
-///
-/// <summary>
-/// This Library allows you to sign a PDF document using iTextSharp
-/// </summary>
-/// <author>Alaa-eddine KADDOURI</author>
-///
-///
 
-namespace iTextSharpSign
+namespace Firma_Digital
 {
     /// <summary>
     /// This class hold the certificate and extract private key needed for e-signature 

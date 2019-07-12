@@ -1,5 +1,4 @@
-﻿using iTextSharpSign;
-using MetroFramework;
+﻿using MetroFramework;
 using MetroFramework.Forms;
 using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;

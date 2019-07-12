@@ -1,4 +1,4 @@
-﻿namespace iTextSharpSign
+﻿namespace Firma_Digital
 {
     partial class FirmaDigital
     {
