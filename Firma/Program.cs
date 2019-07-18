@@ -8,6 +8,7 @@ namespace Firma_Digital
     {
         public static string connectionString;
         public static int id_empleado;
+        public static string usuario, destinatario, asunto, mensaje;
     }
 
 
@@ -25,7 +26,7 @@ namespace Firma_Digital
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Login());
         }
     }
 }

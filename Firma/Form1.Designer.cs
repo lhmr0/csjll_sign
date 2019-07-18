@@ -35,8 +35,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnNuevoDoc = new MetroFramework.Controls.MetroButton();
-            this.btnFirmara = new MetroFramework.Controls.MetroButton();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.btnAdjuntarWord = new MetroFramework.Controls.MetroButton();
@@ -44,6 +42,7 @@
             this.Accion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblSubiendo = new MetroFramework.Controls.MetroLabel();
+            this.btnActualizar = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridDocs)).BeginInit();
             this.SuspendLayout();
@@ -52,33 +51,13 @@
             // 
             this.btnNuevoDoc.BackColor = System.Drawing.SystemColors.ControlText;
             this.btnNuevoDoc.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnNuevoDoc.Location = new System.Drawing.Point(337, 234);
+            this.btnNuevoDoc.Location = new System.Drawing.Point(363, 238);
             this.btnNuevoDoc.Name = "btnNuevoDoc";
-            this.btnNuevoDoc.Size = new System.Drawing.Size(121, 27);
+            this.btnNuevoDoc.Size = new System.Drawing.Size(75, 23);
             this.btnNuevoDoc.TabIndex = 0;
             this.btnNuevoDoc.Text = "Nuevo";
             this.btnNuevoDoc.UseSelectable = true;
             this.btnNuevoDoc.Click += new System.EventHandler(this.MetroButton1_Click);
-            // 
-            // btnFirmara
-            // 
-            this.btnFirmara.Location = new System.Drawing.Point(94, 321);
-            this.btnFirmara.Name = "btnFirmara";
-            this.btnFirmara.Size = new System.Drawing.Size(75, 23);
-            this.btnFirmara.TabIndex = 1;
-            this.btnFirmara.Text = "Firmar";
-            this.btnFirmara.UseSelectable = true;
-            this.btnFirmara.Click += new System.EventHandler(this.MetroButton2_Click);
-            // 
-            // metroButton1
-            // 
-            this.metroButton1.Location = new System.Drawing.Point(94, 350);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.TabIndex = 4;
-            this.metroButton1.Text = "Enviar";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.MetroButton1_Click_1);
             // 
             // pictureBox1
             // 
@@ -95,14 +74,14 @@
             this.metroLabel7.AutoSize = true;
             this.metroLabel7.Location = new System.Drawing.Point(297, 616);
             this.metroLabel7.Name = "metroLabel7";
-            this.metroLabel7.Size = new System.Drawing.Size(218, 19);
+            this.metroLabel7.Size = new System.Drawing.Size(220, 19);
             this.metroLabel7.TabIndex = 62;
             this.metroLabel7.Text = "OFICINA DE INFORMÁTICA - CSJLL";
             this.metroLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnAdjuntarWord
             // 
-            this.btnAdjuntarWord.Location = new System.Drawing.Point(628, 321);
+            this.btnAdjuntarWord.Location = new System.Drawing.Point(520, 238);
             this.btnAdjuntarWord.Name = "btnAdjuntarWord";
             this.btnAdjuntarWord.Size = new System.Drawing.Size(75, 23);
             this.btnAdjuntarWord.TabIndex = 64;
@@ -146,7 +125,7 @@
             this.gridDocs.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.gridDocs.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.gridDocs.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.gridDocs.Location = new System.Drawing.Point(193, 289);
+            this.gridDocs.Location = new System.Drawing.Point(109, 288);
             this.gridDocs.Name = "gridDocs";
             this.gridDocs.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -161,7 +140,7 @@
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
             this.gridDocs.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.gridDocs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDocs.Size = new System.Drawing.Size(417, 293);
+            this.gridDocs.Size = new System.Drawing.Size(578, 293);
             this.gridDocs.Style = MetroFramework.MetroColorStyle.Black;
             this.gridDocs.TabIndex = 63;
             this.gridDocs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDocs_CellContentClick);
@@ -187,18 +166,27 @@
             this.lblSubiendo.Size = new System.Drawing.Size(0, 0);
             this.lblSubiendo.TabIndex = 65;
             // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Location = new System.Drawing.Point(206, 238);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(75, 23);
+            this.btnActualizar.TabIndex = 66;
+            this.btnActualizar.Text = "Cargar";
+            this.btnActualizar.UseSelectable = true;
+            this.btnActualizar.Click += new System.EventHandler(this.BtnActualizar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 655);
+            this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.lblSubiendo);
             this.Controls.Add(this.btnAdjuntarWord);
             this.Controls.Add(this.gridDocs);
             this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.metroButton1);
-            this.Controls.Add(this.btnFirmara);
             this.Controls.Add(this.btnNuevoDoc);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -217,8 +205,6 @@
         #endregion
 
         private MetroFramework.Controls.MetroButton btnNuevoDoc;
-        private MetroFramework.Controls.MetroButton btnFirmara;
-        private MetroFramework.Controls.MetroButton metroButton1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private MetroFramework.Controls.MetroLabel metroLabel7;
         private MetroFramework.Controls.MetroButton btnAdjuntarWord;
@@ -226,5 +212,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Accion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
         private MetroFramework.Controls.MetroLabel lblSubiendo;
+        private MetroFramework.Controls.MetroButton btnActualizar;
     }
 }

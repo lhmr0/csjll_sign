@@ -12,7 +12,7 @@ namespace Firma_Digital
 {
     public partial class Login : MetroForm
     {
-        MySqlConnection con = new MySqlConnection(Globales.connectionString);
+        MySqlConnection con = new MySqlConnection(Globales.connectionString);        
 
         public Login()
         {
@@ -43,22 +43,23 @@ namespace Firma_Digital
         {
             //string pass = CalculateMD5Hash(txtPassword.Text);
             try
-            {            
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand(@"SELECT u.id_usuario,u.ulogin, e.id_empleado,p.id_persona, p.nombres, p.apellido_paterno,p.apellido_materno FROM usuario u 
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(@"SELECT u.id_usuario,u.ulogin, e.id_empleado,p.id_persona, p.nombres, p.apellido_paterno,p.apellido_materno, u.estado FROM usuario u 
                                                   inner join empleado e on e.id_empleado = u.id_empleado
                                                   inner join persona p on p.id_persona = e.id_persona 
                                                   WHERE ulogin='" + txtUsuario.Text + "'AND clave=md5('" + txtPassword.Text + "')", con);
 
 
-            MySqlDataReader leer = cmd.ExecuteReader();
+                MySqlDataReader leer = cmd.ExecuteReader();
 
-            if (leer.Read())
-            {
-                string estado = leer[3].ToString();
-                if (estado == "1")
+                if (leer.Read())
                 {
-                        Globales.id_empleado= leer.GetInt32(2);
+                    string estado = leer[7].ToString();
+                    if (estado == "1")
+                    {
+                        Globales.id_empleado = leer.GetInt32(2);
+                        Globales.usuario = txtUsuario.Text;
                         /*string[] row = new string[7];
                         row[0] = leer.GetString(0);
                         row[1] = leer.GetString(1);
@@ -73,22 +74,22 @@ namespace Firma_Digital
 
 
                         this.Hide();
-                    Form1 f2 = new Form1();
-                    f2.Show();
+                        Form1 f2 = new Form1();
+                        f2.Show();
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "ERROR");
+                    }
+
+
                 }
                 else
-                {
-                    MetroMessageBox.Show(this, "USUARIO DESACTIVADO, CONTACTE CON SOPORTE", "ERROR");
-                }
+                    MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente", "ERROR");
 
-
+                con.Close();
             }
-            else
-                MetroMessageBox.Show(this, "Usuario o clave incorrectos, intente nuevamente", "ERROR");
-
-            con.Close();
-            }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 MetroMessageBox.Show(this, ex.Message, "ERROR");
             }
@@ -155,7 +156,7 @@ namespace Firma_Digital
 
         private void TxtPassword_Enter(object sender, EventArgs e)
         {
-            
+
         }
 
         private void TxtUsuario_Enter(object sender, EventArgs e)

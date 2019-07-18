@@ -3,6 +3,7 @@ using MetroFramework.Forms;
 using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -14,7 +15,7 @@ namespace Firma_Digital
     public partial class Form1 : MetroForm
     {
         System.Windows.Forms.OpenFileDialog openFile;
-        MySqlConnection con = new MySqlConnection(Globales.connectionString);
+        MySqlConnection con = new MySqlConnection(Globales.connectionString);        
         DataGridViewButtonColumn btnFirmar;
         string lastWord = "";
         string destinationFile = "";
@@ -22,7 +23,7 @@ namespace Firma_Digital
         string pdf = "";
         string pdfRemove = "";
 
-        int id_ruta_documento =0;
+        int id_ruta_documento = 0;
         string ruta_documento = "";
 
 
@@ -38,6 +39,7 @@ namespace Firma_Digital
             /******CARGAR COLUMNAS******/
 
             gridDocs.Columns.Clear();
+            Console.WriteLine(Globales.usuario);
 
             btnFirmar = new DataGridViewButtonColumn();
             btnFirmar.Text = "Firmar";
@@ -64,53 +66,59 @@ namespace Firma_Digital
 
         }
 
-        public void cargarDocumentos()
+        public void leerUsuario()
         {
 
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("SELECT id_documento_digital,nombre,fecha , estado FROM documento_digital where estado>=1", con);
-            MySqlDataReader datos = cmd.ExecuteReader();
+        }
 
-            while (datos.Read())
-            {
-                Console.WriteLine(datos.GetString(0));
+        public void cargarDocumentos()
+        {
+          
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT id_documento_digital,nombre,fecha , estado FROM documento_digital where estado>=1 and id_empleado="+Globales.id_empleado+"", con);
+                MySqlDataReader datos = cmd.ExecuteReader();
 
-                string[] row = new string[6];
-                row[0] = "";
-                row[1] = datos.GetString(1);
-                row[2] = datos.GetString(2);
-                row[3] = datos.GetString(0);
-                row[4] = datos.GetString(3);
-       
+                while (datos.Read())
+                {
+                    Console.WriteLine(datos.GetString(0));
 
-                gridDocs.Rows.Add(row);
-
-
-                //DataGridViewButtonCell btn = (DataGridViewButtonCell)gridDocs.Rows[0].Cells[0];
-
-                //btn.Value = "diego flores";
-                //int estado = datos.GetInt32(3);
-
-                //gridDocs.Rows[0].Cells[0].Value = "Lavado";
+                    string[] row = new string[6];
+                    row[0] = "";
+                    row[1] = datos.GetString(1);
+                    row[2] = datos.GetString(2);
+                    row[3] = datos.GetString(0);
+                    row[4] = datos.GetString(3);
 
 
-                /*
-				DataGridViewButtonColumn btnEnviar = new DataGridViewButtonColumn();
-				btnEnviar.Text = "estado";
-				btnEnviar.Name = "Accion";
-				btnEnviar.UseColumnTextForButtonValue = true;*/
-
-                //gridDocs.Rows[0].Cells[0] = btn;
+                    gridDocs.Rows.Add(row);
 
 
-            }
-            con.Close();
+                    //DataGridViewButtonCell btn = (DataGridViewButtonCell)gridDocs.Rows[0].Cells[0];
+
+                    //btn.Value = "diego flores";
+                    //int estado = datos.GetInt32(3);
+
+                    //gridDocs.Rows[0].Cells[0].Value = "Lavado";
+
+
+                    /*
+                    DataGridViewButtonColumn btnEnviar = new DataGridViewButtonColumn();
+                    btnEnviar.Text = "estado";
+                    btnEnviar.Name = "Accion";
+                    btnEnviar.UseColumnTextForButtonValue = true;*/
+
+                    //gridDocs.Rows[0].Cells[0] = btn;
+
+
+                }
+                con.Close();
+          
         }
 
 
         public void obtenerRutaDocumento()
         {
-
+                   
             con.Open();
             MySqlCommand cmd = new MySqlCommand("select r.id_ruta,r.carpeta,r.servidor from ruta r where tipo_ruta='D' and r.estado=1 limit 1", con);
             MySqlDataReader datos = cmd.ExecuteReader();
@@ -119,14 +127,15 @@ namespace Firma_Digital
             {
                 Console.WriteLine(datos.GetString(0));
 
-                this.id_ruta_documento= datos.GetInt32(0);
-                this.ruta_documento =@"\\"+datos.GetString(2) + "\\" + datos.GetString(1)+"\\";
- 
+                this.id_ruta_documento = datos.GetInt32(0);
+                this.ruta_documento = @"\\" + datos.GetString(2) + "\\" + datos.GetString(1) + "\\" + Globales.usuario+"\\";
+
 
                 Console.WriteLine("id_ruta_documento: " + id_ruta_documento);
                 Console.WriteLine("ruta_documento: " + ruta_documento);
             }
             con.Close();
+            
         }
 
 
@@ -136,7 +145,7 @@ namespace Firma_Digital
             con.Open();
             MySqlCommand cmd = new MySqlCommand(@"SELECT f.nombre,f.clave,f.id_empleado,r.id_ruta,r.carpeta,r.servidor FROM firma_digital f
                                                 inner join ruta r on r.id_ruta = f.id_ruta
-                                                where f.tipo_firma='C' and f.estado = 1 and f.id_empleado = "+ id_empleado, con);
+                                                where f.tipo_firma='C' and f.estado = 1 and f.id_empleado = " + id_empleado, con);
             MySqlDataReader datos = cmd.ExecuteReader();
 
             while (datos.Read())
@@ -145,7 +154,7 @@ namespace Firma_Digital
 
                 //this.id_ruta_certificado = datos.GetInt32(0);
                 //his.ruta_certificado = @"\\" + datos.GetString(2) + "\\" + datos.GetString(1) + "\\";
-                ruta_certificado= @"\\" + datos.GetString(5) + "\\" + datos.GetString(4) + "\\" + datos.GetString(0);
+                ruta_certificado = @"\\" + datos.GetString(5) + "\\" + datos.GetString(4) + "\\" + datos.GetString(0);
 
                 Console.WriteLine("id_ruta_certificado: " + this.id_ruta_certificado);
                 Console.WriteLine("ruta_certificado: " + ruta_certificado);
@@ -174,7 +183,7 @@ namespace Firma_Digital
                 ruta_certificado = @"\\" + datos.GetString(5) + "\\" + datos.GetString(4) + "\\" + datos.GetString(0);
 
                 Console.WriteLine("id_ruta_certificado: " + this.id_ruta_certificado);
-                Console.WriteLine("ruta_certificado: " + this.ruta_certificado);
+                Console.WriteLine("ruta_certificado_imagen: " + this.ruta_certificado);
             }
             con.Close();
 
@@ -183,14 +192,14 @@ namespace Firma_Digital
 
 
         public void cambiarEstado(int id_documento, int estado)
-		{
+        {
 
-			con.Open();
-			MySqlCommand cmd = new MySqlCommand("update documento_digital set estado= " + estado + " where id_documento_digital=" + id_documento, con);
+            con.Open();
+            MySqlCommand cmd = new MySqlCommand("update documento_digital set estado= " + estado + " where id_documento_digital=" + id_documento, con);
 
-			cmd.ExecuteNonQuery();
-			con.Close();
-		}
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
 
 
 
@@ -203,79 +212,110 @@ namespace Firma_Digital
             cmd.Parameters.AddWithValue("@nombre", nombre);
             cmd.Parameters.AddWithValue("@extension", extension);
             cmd.Parameters.AddWithValue("@id_empleado", id_empleado);
-            cmd.Parameters.AddWithValue("@id_rutao",id_ruta);
+            cmd.Parameters.AddWithValue("@id_ruta", id_ruta);
             cmd.Parameters.AddWithValue("@estado", estado);
 
-            int nroFilas =cmd.ExecuteNonQuery();
+            int nroFilas = cmd.ExecuteNonQuery();
             int ultimoIdInsertado = 0;
             cmd.CommandText = "select LAST_INSERT_ID() as lastid";
             MySqlDataReader datos = cmd.ExecuteReader();
 
-            if (datos.Read()) {
+            if (datos.Read())
+            {
                 ultimoIdInsertado = datos.GetInt32(0);
             }
 
             Console.WriteLine("nro filas afectadas: " + nroFilas);
             Console.WriteLine("ultimo id insertado: " + ultimoIdInsertado);
             con.Close();
+            //cargarDocumentos();
         }
 
 
 
         public Microsoft.Office.Interop.Word.Document wordDocument { get; set; }
 
-		private void MetroButton1_Click(object sender, EventArgs e)
-		{
+        private void MetroButton1_Click(object sender, EventArgs e)
+        {
+            Microsoft.Office.Interop.Word.Application winword = new Microsoft.Office.Interop.Word.Application();
+            //https://www.c-sharpcorner.com/UploadFile/muralidharan.d/how-to-create-word-document-using-C-Sharp/
+            //Set animation status for word application  
+            winword.ShowAnimation = false;
+            //Set status for word application is to be visible or not.  
+            winword.Visible = false;
+            //Create a missing variable for missing value  
+            object missing = System.Reflection.Missing.Value;
 
-		}
+            //Create a new document  
+            Microsoft.Office.Interop.Word.Document document = winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+            DateTime fecha = DateTime.Now;
+            string fechaFor = "";
+            fechaFor = fecha.ToString("yyyyMMdd");
+            string txtNuevo = fechaFor;
+            Console.Write(fechaFor);
+            //Save the document  
+            object filename = @"c:\/" + fechaFor + ".docx";
+            //txtNuevo.Text = @"c:\" + fechaFor + ".docx";
+            //document.Save();
+            document.SaveAs2(ref filename);
+            document.Close(ref missing, ref missing, ref missing);
+            document = null;
+            winword.Quit(ref missing, ref missing, ref missing);
+            winword = null;
+            Process.Start(@"c:\" + fechaFor + ".docx");
+            MetroMessageBox.Show(this, "Se ha creado el documento!", "Documento nuevo");
+            
+            //Process.Start(filename.ToString());
+        }
 
-		private string CalculateMD5Hash(string input)
-		{
-			// hashing
-			MD5 md5 = System.Security.Cryptography.MD5.Create();
-			byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-			byte[] hash = md5.ComputeHash(inputBytes);
+        private string CalculateMD5Hash(string input)
+        {
+            // hashing
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
 
-			// string
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < hash.Length; i++)
-			{
-				sb.Append(hash[i].ToString("X2"));
-			}
-			return sb.ToString();
+            // string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
 
-		}
+        }
 
-		private void MetroListView1_SelectedIndexChanged(object sender, EventArgs e)
-		{
+        private void MetroListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
-		}
+        }
 
-		private void Editor_Load(object sender, EventArgs e)
-		{
+        private void Editor_Load(object sender, EventArgs e)
+        {
             //string folderPath = "c:/";
-			//string[] files = System.IO.Directory.GetFiles(folderPath, "*.docx");
+            //string[] files = System.IO.Directory.GetFiles(folderPath, "*.docx");
 
 
-			//for (int x = 0; x < files.Length; x++)
-			//{
-				//gridDocs.Rows.Add("", files[x]);
-			//}
-		}
+            //for (int x = 0; x < files.Length; x++)
+            //{
+            //gridDocs.Rows.Add("", files[x]);
+            //}
+        }
 
-		private void MetroButton2_Click(object sender, EventArgs e)
-		{
-			
-
+        private void MetroButton2_Click(object sender, EventArgs e)
+        {
 
 
-			Firma f2 = new Firma();
-			f2.ShowDialog();
-		}
 
 
-        public void firmarDocumento(string nombre_doc, string ruta_documento_documento,string ruta_documento_certificado,string clave_certificado,string ruta_documento_imagen_firma,string
-            ruta_documento_almacenamiento_firmado){
+            Firma f2 = new Firma();
+            f2.ShowDialog();
+        }
+
+
+        public void firmarDocumento(string nombre_doc, string ruta_documento_documento, string ruta_documento_certificado, string clave_certificado, string ruta_documento_imagen_firma, string
+            ruta_documento_almacenamiento_firmado)
+        {
             Cert myCert = null;
             try
             {
@@ -284,18 +324,18 @@ namespace Firma_Digital
 
                 string pathCert = ruta_documento_certificado;//ruta_documento_certificado;
                 //string keyCert = "eWgJu5TY6s7xav6q";
-                string keyCert=clave_certificado;
-                Console.WriteLine("pathCert: "+ pathCert);
+                string keyCert = clave_certificado;
+                Console.WriteLine("pathCert: " + pathCert);
                 myCert = new Cert(pathCert, keyCert);
                 MetaData MyMD = new MetaData();
                 //newPdf = "D:/docs_firmados/" + lastWord + "_firmado.pdf";
-                newPdf = ruta_documento_documento+ "_firmado.pdf";
-                string signedPdf = ruta_documento_documento + "_firmado.pdf";
+                newPdf = ruta_documento_documento + "_firmado.pdf";
+                string signedPdf = ruta_documento_documento + nombre_doc + "_firmado.pdf";
                 pdf = ruta_documento_documento + nombre_doc + ".pdf";
-                Console.WriteLine("pdf firma: "+pdf);
+                Console.WriteLine("pdf firma: " + pdf);
                 Console.WriteLine("signedPdf firma: " + signedPdf);
                 PDFSigner pdfs = new PDFSigner(pdf, signedPdf, myCert, MyMD);
-                Console.WriteLine("newPdf: "+newPdf);
+                //Console.WriteLine("newPdf: " + newPdf);
                 //string pathImage = "D:/serviciodigitalFINAL_11102018/serviciodigitalFINAL_11102018/firma.png";
                 string pathImage = ruta_documento_imagen_firma;
                 pdfs.Sign(true, pathImage);
@@ -304,16 +344,16 @@ namespace Firma_Digital
                 /*System.IO.File.Delete(@"" + pdfRemove + "");
                 Console.WriteLine(pdfRemove);*/
 
-                Console.WriteLine("documento firmado: "+ signedPdf);
-                Console.WriteLine("new firmado: " + newPdf);
+                Console.WriteLine("documento firmado: " + signedPdf);
+               // Console.WriteLine("new firmado: " + newPdf);
                 //copiando pdf firmado del servidor 
                 string sourceFile = System.IO.Path.Combine(signedPdf);
-                string destFile = System.IO.Path.Combine(newPdf);
+                //string destFile = System.IO.Path.Combine(newPdf);
                 //System.IO.Directory.CreateDirectory("C:/docs_firmados");
 
                 System.IO.Directory.CreateDirectory(ruta_documento_almacenamiento_firmado);
-                
-                System.IO.File.Copy(sourceFile, destFile, true);
+
+                //System.IO.File.Copy(sourceFile, destFile, true);
             }
             catch (Exception ex)
             {
@@ -321,18 +361,18 @@ namespace Firma_Digital
                 return;
             }
         }
-		private void MetroButton1_Click_1(object sender, EventArgs e)
-		{
+        private void MetroButton1_Click_1(object sender, EventArgs e)
+        {
 
 
 
 
-			Mensaje f2 = new Mensaje();
-			f2.ShowDialog();
-		}
+            Mensaje f2 = new Mensaje();
+            f2.ShowDialog();
+        }
 
-		private void GridDocs_CellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
+        private void GridDocs_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
             var senderGrid = (DataGridView)sender;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
@@ -351,13 +391,14 @@ namespace Firma_Digital
         }
 
 
-        private void firmar_enviar(int id_documento, int estado,string nombre_documento)
+        private void firmar_enviar(int id_documento, int estado, string nombre_documento)
         {
 
             if (estado == 1)
             {
                 /***********FIRMAR DOCUMENTO***********/
                 Console.WriteLine("VAS A FIRMAR EL DOCUMENTO");
+                
                 cambiarEstado(id_documento, 2);
                 //firmarDocumento(id_documento);
 
@@ -368,26 +409,55 @@ namespace Firma_Digital
                     "eWgJu5TY6s7xav6q",
                     this.obtenerRutaImagenFirmaByEmpleado(Globales.id_empleado),
                     this.ruta_documento); ;
+
+
             }
 
             if (estado == 2)
             {
                 /***********ENVIAR DOCUMENTO CORREO***********/
                 Console.WriteLine("ESTAS ENVIANDO EL DOCUMENTO");
-                cambiarEstado(id_documento, 3);
+                Mensaje m = new Mensaje();
+                m.ShowDialog();
+                try
+                {
+                    var processInfo = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/c" + "\"f:/gwsend.exe /t="+Globales.destinatario+" /s="+Globales.asunto+" /a=" + ruta_documento + " /m="+Globales.mensaje+"");
+                    Console.WriteLine("entró");
+                    processInfo.CreateNoWindow = true;
+
+                    processInfo.UseShellExecute = false;
+
+                    processInfo.RedirectStandardError = true;
+                    processInfo.RedirectStandardOutput = true;
+
+                    var process = System.Diagnostics.Process.Start(processInfo);
+
+                    process.Start();
+                    process.WaitForExit();
+                    cambiarEstado(id_documento, 3);
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
+               
             }
 
         }
 
         private void BtnAdjuntarWord_Click(object sender, EventArgs e)
-		{
+        {
 
             this.adjuntarArchivo();
 
-		}
+        }
 
 
-        public void adjuntarArchivo() {
+        public void adjuntarArchivo()
+        {
 
             openFile = new System.Windows.Forms.OpenFileDialog();
             openFile.Filter = "Documentos *.doc|*.docx|PDF (*.pdf)|*.pdf";
@@ -407,10 +477,10 @@ namespace Firma_Digital
             string nombre_doc = lastWord.Split('.').First();
             Console.WriteLine(doc);
 
-            Console.WriteLine("extension: "+ doc);
+            Console.WriteLine("extension: " + doc);
             Console.WriteLine("nombre_doc: " + nombre_doc);
             string uploadDoc = "";
-                bool soloPdf = false;
+            bool soloPdf = false;
             if (doc != "pdf")
             {
                 Microsoft.Office.Interop.Word.Application appWord = new Microsoft.Office.Interop.Word.Application();
@@ -421,7 +491,7 @@ namespace Firma_Digital
 
                 //Cursor = Cursors.WaitCursor;
                 //destinationFile = @"\\172.41.158.33\publico\archivos\" + lastWord;
-                destinationFile =this.ruta_documento + nombre_doc;
+                destinationFile = this.ruta_documento  +@"\"+ nombre_doc;
 
                 uploadDoc = destinationFile + ".pdf";
                 soloPdf = false;
@@ -429,7 +499,7 @@ namespace Firma_Digital
             else
             {
                 pdf = openFile.FileName;
-                destinationFile = this.ruta_documento + lastWord;
+                destinationFile = this.ruta_documento  +@"\"+ lastWord;
                 soloPdf = true;
             }
 
@@ -444,8 +514,10 @@ namespace Firma_Digital
                 {
                     try
                     {
+                        System.IO.Directory.CreateDirectory(ruta_documento);
                         System.IO.File.Copy(openFile.FileName, destinationFile);
                         MetroMessageBox.Show(this, "Archivo PDF subido correctamente", "Documento");
+                        insertarArchivoSubido(nombre_doc, doc, Globales.id_empleado, this.id_ruta_documento, 1);
 
                     }
                     catch (Exception ex)
@@ -458,12 +530,12 @@ namespace Firma_Digital
                 {
                     try
                     {
-                        System.IO.File.Copy(openFile.FileName, destinationFile);
+                        System.IO.Directory.CreateDirectory(ruta_documento);
+                        System.IO.File.Copy(openFile.FileName, destinationFile + ".docx");
                         System.IO.File.Copy(pdf, uploadDoc);
                         MetroMessageBox.Show(this, "Archivo DOC subido correctamente", "Documento");
 
-
-                        this.insertarArchivoSubido(nombre_doc, doc, Globales.id_empleado, this.id_ruta_documento, 1);
+                        insertarArchivoSubido(nombre_doc, doc, Globales.id_empleado, this.id_ruta_documento, 1);
 
                     }
                     catch (Exception ex)
@@ -472,7 +544,7 @@ namespace Firma_Digital
                         MetroMessageBox.Show(this, ex.Message, "ERROR");
                     }
                 }
-                Cursor = Cursors.Default;
+                //Cursor = Cursors.Default;
                 lblSubiendo.Text = "";
 
 
@@ -519,6 +591,12 @@ namespace Firma_Digital
                 btnFirmar.DefaultCellStyle.ForeColor = Color.Blue;
                 btnFirmar.DefaultCellStyle.BackColor = Color.FromArgb(36, 236, 36);
             }
+        }
+
+        private void BtnActualizar_Click(object sender, EventArgs e)
+        {
+            //this.cargarDocumentos();
+            this.InitializeComponent();
         }
     }
 }

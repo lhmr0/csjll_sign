@@ -14,5 +14,13 @@ namespace Firma_Digital
         {
 
         }
+
+        private void MetroButton1_Click(object sender, EventArgs e)
+        {
+            Globales.destinatario = txtDestinatario.Text;
+            Globales.asunto = txtAsunto.Text;
+            Globales.mensaje = txtMensaje.Text;
+            this.Hide();
+        }
     }
 }

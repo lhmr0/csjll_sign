@@ -164,6 +164,7 @@
             this.metroButton1.TabIndex = 6;
             this.metroButton1.Text = "Enviar";
             this.metroButton1.UseSelectable = true;
+            this.metroButton1.Click += new System.EventHandler(this.MetroButton1_Click);
             // 
             // Mensaje
             // 
